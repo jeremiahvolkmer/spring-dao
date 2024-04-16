@@ -23,6 +23,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public void create(Author author) {
+
         jdbcTemplate.update(
                 "INSERT INTO authors (id, name, age) VALUES (?, ?, ?)",
                 author.getId(), author.getName(), author.getAge()
@@ -31,6 +32,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Optional<Author> findOne(long authorId) {
+
         List<Author> results = jdbcTemplate.query(
                 "SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
                 new AuthorRowMapper(), authorId);
@@ -38,10 +40,20 @@ public class AuthorDaoImpl implements AuthorDao {
         return results.stream().findFirst();
     }
 
+    @Override
+    public List<Author> find() {
+
+        return jdbcTemplate.query(
+                "SELECT id, name, age FROM authors",
+                new AuthorRowMapper()
+        );
+    }
+
     public static class AuthorRowMapper implements RowMapper<Author> {
 
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+
             return Author.builder()
                     .id(rs.getLong("id"))
                     .name(rs.getString("name"))

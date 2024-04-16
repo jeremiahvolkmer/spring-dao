@@ -25,6 +25,7 @@ public class BookDaoImplTest {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql() {
+
         Book book = TestDataUtil.createTestBook();
         underTest.create(book);
 
@@ -38,6 +39,7 @@ public class BookDaoImplTest {
 
     @Test
     public void testThatFindOneGeneratesTheCorrectSql() {
+
         underTest.find("The Shadow in the Attic");
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, authorId FROM books WHERE title = ? LIMIT 1"),
