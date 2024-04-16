@@ -39,7 +39,7 @@ public class BookDaoImplIntergrationTest {
         book.setAuthorId(author.getId());
         underTest.create(book);
 
-        Optional<Book> result = underTest.find(book.getIsbn());
+        Optional<Book> result = underTest.findOne(book.getIsbn());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(book);
     }
@@ -61,7 +61,7 @@ public class BookDaoImplIntergrationTest {
         Book bookC = TestDataUtil.createTestBookC();
         underTest.create(bookC);
 
-        List<Book> result = underTest.findMany();
+        List<Book> result = underTest.find();
         assertThat(result)
                 .hasSize(3).
                 containsExactly(bookA,bookB,bookC);

@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface BookDao {
 
     void create(Book book);
-    Optional<Book> find(String s);
+    Optional<Book> findOne(String s);
 
-    List<Book> findMany();
+    List<Book> find();
 }
