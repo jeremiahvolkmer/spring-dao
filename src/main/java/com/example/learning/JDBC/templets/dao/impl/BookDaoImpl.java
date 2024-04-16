@@ -3,6 +3,12 @@ package com.example.learning.JDBC.templets.dao.impl;
 import com.example.learning.JDBC.templets.dao.BookDao;
 import com.example.learning.JDBC.templets.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 public class BookDaoImpl implements BookDao {
 
@@ -20,4 +26,27 @@ public class BookDaoImpl implements BookDao {
                 book.getAuthorId()
         );
     }
+
+    @Override
+    public Optional<Book> findOne(String title) {
+        List<Book> results = jdbcTemplate.query(
+                "SELECT isbn, title, authorId FROM books WHERE title = ? LIMIT 1",
+                new BookRowMapper(), title);
+
+        return results.stream().findFirst();
+    }
+
+    public static class BookRowMapper implements RowMapper<Book> {
+
+        @Override
+        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Book.builder()
+                    .isbn(rs.getString("isbn"))
+                    .title(rs.getString("title"))
+                    .authorId(rs.getLong("authorId"))
+                    .build();
+        }
+    }
+
+
 }
