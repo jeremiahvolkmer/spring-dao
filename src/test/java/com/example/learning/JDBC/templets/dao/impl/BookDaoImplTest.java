@@ -1,6 +1,6 @@
 package com.example.learning.JDBC.templets.dao.impl;
 
-import com.example.learning.JDBC.templets.dao.impl.BookDaoImpl;
+import com.example.learning.JDBC.templets.TestDataUtil;
 import com.example.learning.JDBC.templets.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,12 +24,8 @@ public class BookDaoImplTest {
     private BookDaoImpl underTest;
 
     @Test
-    public void testThatCreateBookGeneratsCorrectSql() {
-        Book book = Book.builder()
-                        .isbn("978-1-2345-6789-0")
-                        .title("The Shadow in the Attic")
-                        .authorId(1L)
-                        .build();
+    public void testThatCreateBookGeneratesCorrectSql() {
+        Book book = TestDataUtil.createTestBook();
         underTest.create(book);
 
         verify(jdbcTemplate).update(
@@ -42,7 +38,7 @@ public class BookDaoImplTest {
 
     @Test
     public void testThatFindOneGeneratesTheCorrectSql() {
-        underTest.findOne("The Shadow in the Attic");
+        underTest.find("The Shadow in the Attic");
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, authorId FROM books WHERE title = ? LIMIT 1"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),

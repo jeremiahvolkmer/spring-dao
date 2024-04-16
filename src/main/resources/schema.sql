@@ -14,5 +14,5 @@ CREATE TABLE "books" (
     "author_id" bigint,
     CONSTRAINT "books_pkey" PRIMARY KEY ("isbn"),
     CONSTRAINT "fk_author" FOREIGN KEY (author_id)
-                     References authors(id)
+    References authors(id)
 );

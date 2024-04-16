@@ -1,6 +1,7 @@
 package com.example.learning.JDBC.templets;
 
 import com.example.learning.JDBC.templets.domain.Author;
+import com.example.learning.JDBC.templets.domain.Book;
 
 public final class TestDataUtil {
 
@@ -14,6 +15,15 @@ public final class TestDataUtil {
                 .age(32)
                 .build();
         return author;
+    }
+
+    public static Book createTestBook() {
+        Book book = Book.builder()
+                        .isbn("978-1-2345-6789-0")
+                        .title("The Shadow in the Attic")
+                        .authorId(1L)
+                        .build();
+        return book;
     }
 }
 
