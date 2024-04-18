@@ -3,19 +3,24 @@ package com.example.learning.JDBC.templets.dao.impl;
 import com.example.learning.JDBC.templets.TestDataUtil;
 import com.example.learning.JDBC.templets.domain.Author;
 import com.example.learning.JDBC.templets.domain.Book;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@Log
 
 public class BookDaoImplIntergrationTest {
 
@@ -55,16 +60,20 @@ public class BookDaoImplIntergrationTest {
         authorDao.create(authorC);
 
         Book bookA = TestDataUtil.createTestBookA();
+        bookA.setAuthorId(author.getId());
         underTest.create(bookA);
         Book bookB = TestDataUtil.createTestBookB();
+        bookB.setAuthorId(authorB.getId());
         underTest.create(bookB);
         Book bookC = TestDataUtil.createTestBookC();
+        bookC.setAuthorId(authorC.getId());
         underTest.create(bookC);
 
         List<Book> result = underTest.find();
         assertThat(result)
                 .hasSize(3).
                 containsExactly(bookA,bookB,bookC);
+        log.info(result.toString());
     }
 
 }
