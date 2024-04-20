@@ -56,4 +56,11 @@ public class BookDaoImplTest {
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any()
         );
     }
+
+    @Test
+    public void testUpdateGeneratesCorrectSql() {
+
+        Book book = TestDataUtil.createTestBook();
+        underTest.update()
+    }
 }
